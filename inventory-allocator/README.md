@@ -1,54 +1,66 @@
+David Zhang (Qixiang)  
+qixianz@uci.edu  
+Nov 2, 2019  
+Deliverr Coding Challenge
+
+#### Problem
+The problem is compute the best way an order can be shipped (called shipments) given inventory across a set of warehouses (called inventory distribution).
+
+#### General Approach
+**Algorithm**: Greedy - fill the order by iterating through pre-sorted-by-cost warehouses
+**Language**: Python 3.6
+
+#### Approach Analysis
+**Algorithm in pseudocode**:  
+```{r, tidy=FALSE, eval=FALSE, highlight=FALSE}
+allocation = []
+warehouse_index = 0
+N = total number of warehouses
+while order is not empty AND warehouse_index < N:
+    fill order from warehouse[warehouse_index++]
+return (order is empty) ? allocation : []
+```
+**Correctness**:  
+Since the given warehouses are pre-sorted by shipping cost, the order can be filled by iterating through the warehouse list from the cheapest to the most expensive.  
+
+**Input**: `Order`: dict(), `Inventories per warehouses`: list(dict(dict))  
+**Output**: `Orders per warehouses`: list(dict(dict))  
+
+###### Test Case Examples  
+**Example 1**  
+Input: ```{ apple: 1 }, [{ name: owd, inventory: { apple: 1 } }]```  
+Output: ```[{ owd: { apple: 1 } }]```   
+Explanation: *Happy Case, exact inventory match!*  
+
+**Example 2**  
+Input: ```{ apple: 1 }, [{ name: owd, inventory: { apple: 0 } }]```    
+Output: ```[]```  
+Explanation: *Not enough inventory -> no allocations!*  
+
+**Example 3**   
+Input: ```{ apple: 10 }, [{ name: owd, inventory: { apple: 5 } }, { name: dm, inventory: { apple: 5 }}]```  
+Output: ```[{ dm: { apple: 5 }}, { owd: { apple: 5 } }]```  
+Explanation: *Should split an item across warehouses if that is the only way to completely ship an item:*
+
+**Other examples**  
+(Use generate_testcases.py to generate test cases)
 
 
-### Problem
+#### Data Consideration (edge cases)
+1. Given order is empty or the warehouses are empty -> return an empty list (no allocation)
+2. Given order can only be partially filled -> return an empty list (no allocation)
 
-The problem is compute the best way an order can be shipped (called shipments) given inventory across a set of warehouses (called inventory distribution). 
+#### Other consideration
+The fixed cost for allocation from each warehouses are not considered here.  
 
-Your task is to implement InventoryAllocator class to produce the cheapest shipment.
+For example,
 
-The first input will be an order: a map of items that are being ordered and how many of them are ordered. For example an order of apples, bananas and oranges of 5 units each will be 
-
-`{ apple: 5, banana: 5, orange: 5 }`
-
-The second input will be a list of object with warehouse name and inventory amounts (inventory distribution) for these items. For example the inventory across two warehouses called owd and dm for apples, bananas and oranges could look like
-
-`[ 
-    {
-    	name: owd,
-    	inventory: { apple: 5, orange: 10 }
-    }, 
-    {
-    	name: dm:,
-    	inventory: { banana: 5, orange: 10 } 
-    }
-]`
-
-You can assume that the list of warehouses is pre-sorted based on cost. The first warehouse will be less expensive to ship from than the second warehouse. 
-
-You can use any language of your choice to write the solution (internally we use Typescript/Javascript, Python, and some Java). Please write unit tests with your code, a few are mentioned below, but these are not comprehensive. Fork the repository and put your solution inside of the src directory and include a way to run your tests!
-
-### Examples
-
-*Happy Case, exact inventory match!**
-
-Input: `{ apple: 1 }, [{ name: owd, inventory: { apple: 1 } }]`  
-Output: `[{ owd: { apple: 1 } }]`
-
-*Not enough inventory -> no allocations!*
-
-Input: `{ apple: 1 }, [{ name: owd, inventory: { apple: 0 } }]`  
-Output: `[]`
-
-*Should split an item across warehouses if that is the only way to completely ship an item:*
-
-Input: `{ apple: 10 }, [{ name: owd, inventory: { apple: 5 } }, { name: dm, inventory: { apple: 5 }}]`  
-Output: `[{ dm: { apple: 5 }}, { owd: { apple: 5 } }]`
-
-### What are we looking for
-
-We'll evaluate your code via the following guidelines in no particular order:
-
-1. **Readability**: naming, spacing, consistency
-2. **Correctness**: is the solution correct and does it solve the problem
-1. **Test Code Quality**: Is the test code comperehensive and covering all cases.
-1. **Tool/Language mastery**: is the code using up to date syntax and techniques. 
+```
+    - The order: {apple: 3}
+    - Inventories: [
+    {name: wh0, inventory: {apple: 1}},
+    {name: wh1, inventory: {apple: 1}},
+    {name: wh2, inventory: {apple: 1}},
+    {name: wh3, inventory: {apple: 3}}]
+```
+If the total cost of allocating 3 apples from "wh3" is cheaper than the total cost of allocating 3 apples from "wh0", "wh1", "wh2", then the order should be filled from "wh3" only.
