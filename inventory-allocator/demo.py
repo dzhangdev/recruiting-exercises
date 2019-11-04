@@ -1,5 +1,5 @@
 #
-# Inventory Allocation (Python 2, 3)
+# Inventory Allocation (Python 3)
 #
 # Run this command-line program with no arguments.
 #
