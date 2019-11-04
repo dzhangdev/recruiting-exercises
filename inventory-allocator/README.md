@@ -43,7 +43,7 @@ Output: ```[{ dm: { apple: 5 }}, { owd: { apple: 5 } }]```
 Explanation: *Should split an item across warehouses if that is the only way to completely ship an item:*
 
 **Other examples**  
-(Use generate_testcases.py to generate test cases)
+(Test on 1000 randomly generated input pairs)
 
 
 #### Data Consideration (edge cases)
