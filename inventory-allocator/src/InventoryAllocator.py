@@ -6,8 +6,9 @@
 # Qixiang Zhang (David)
 # qixianz@uci.edu
 # https://www.linkedin.com/in/dzhangdev
-#
 
+
+from collections import OrderedDict
 
 
 class InventoryAllocator(object):
@@ -41,4 +42,36 @@ class InventoryAllocator(object):
             Output data. Note that it can be empty, or contain 1 or more dict
             type allocation among available warehouses.
         """
-        pass
+        # return empty list if None or empty input data
+        if (not order or not warehouse_inventories):
+            return []
+
+        # keep the warehouse filling order sorted
+        allocation_map = OrderedDict()
+
+        # iterate through the warehouses from the cheapest to the most expensive
+        for warehouse_map in warehouse_inventories:
+
+            # if the order is filled, return the allocation
+            if not order:
+                return [{key: value} for key, value in allocation_map.items()]
+
+            # iterate through remaining orders
+            for product in order:
+
+                # check if the warehosue has the item in the inventory
+                if (product in warehouse_map['inventory'] and warehouse_map['inventory'][product] > 0):
+
+                    # allocate the max possible
+                    allocate_amount = min(warehouse_map['inventory'][product], order[product])
+
+                    # mark the warehouse if not present
+                    if warehouse_map['name'] not in allocation_map:
+                        allocation_map[warehouse_map['name']] = dict()
+
+                    # put the inventory in the allocation order
+                    allocation_map[warehouse_map['name']][product] = allocate_amount
+
+                    # remove item from order if the remaining required amount is 0
+                    if(order[product] == 0):
+                        del order[product]
