@@ -8,6 +8,8 @@
 # https://www.linkedin.com/in/dzhangdev
 #
 
+from src.InventoryAllocator import InventoryAllocator
+
 
 def main():
     """Run all test cases here"""
@@ -26,7 +28,10 @@ def do_basic_happy_test():
     Output: [{ owd: { apple: 1 } }]
     Explanation: Happy Case, exact inventory match!
     """
-    pass
+    order = {'apple' : 1};
+    warehouse_inventories = [{ 'name': 'owd', 'inventory': { 'apple': 1 } }]
+    allocation = InventoryAllocator.allocate(order, warehouse_inventories)
+    print(str(allocation))
 
 
 def do_basic_not_enough_inventory_test():
