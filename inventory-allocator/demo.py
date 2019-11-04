@@ -25,13 +25,15 @@ def do_basic_happy_test():
     """ Creates a happy exact match case, and prints the result to the console
     Example:
     Input: { apple: 1 }, [{ name: owd, inventory: { apple: 1 } }]
-    Output: [{ owd: { apple: 1 } }]
+    Output: [{'owd': {'apple': 1}}]
     Explanation: Happy Case, exact inventory match!
     """
     order = {'apple' : 1};
     warehouse_inventories = [{ 'name': 'owd', 'inventory': { 'apple': 1 } }]
     allocation = InventoryAllocator.allocate(order, warehouse_inventories)
-    print(str(allocation))
+
+    answer = "[{'owd': {'apple': 1}}]"
+    print("{} the basic happy test!".format('Passed' if str(allocation) == answer else 'failed'))
 
 
 def do_basic_not_enough_inventory_test():
@@ -41,7 +43,12 @@ def do_basic_not_enough_inventory_test():
     Output: []
     Explanation: Not enough inventory -> no allocations!
     """
-    pass
+    order = {'apple' : 1};
+    warehouse_inventories = [{ 'name': 'owd', 'inventory': { 'apple': 0 } }]
+    allocation = InventoryAllocator.allocate(order, warehouse_inventories)
+
+    answer = "[]"
+    print("{} the basic not enough inventory test!".format('Passed' if str(allocation) == answer else 'failed'))
 
 
 def do_basic_split_test():
@@ -50,10 +57,15 @@ def do_basic_split_test():
     Input: { apple: 10 },
             [{ name: owd, inventory: { apple: 5 } },
              { name: dm,  inventory: { apple: 5 }}]
-    Output: [{ dm: { apple: 5 }}, { owd: { apple: 5 } }]
+    Output: [{'owd': {'apple': 5}}, {'dm': {'apple': 5}}]
     Explanation: Should split an item across warehouses if that is the only way to completely ship an item!
     """
-    pass
+    order = {'apple' : 1};
+    warehouse_inventories = [{ 'name': 'owd', 'inventory': { 'apple': 5 } }, { 'name': 'dm',  'inventory': { 'apple': 5 }}]
+    allocation = InventoryAllocator.allocate(order, warehouse_inventories)
+
+    answer = "[{'owd': {'apple': 1}}, {'dm': {'apple': 1}}]"
+    print("{} the basic split test!".format('Passed' if str(allocation) == answer else 'failed'))
 
 
 def do_random_test():

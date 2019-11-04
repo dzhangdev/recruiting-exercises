@@ -54,7 +54,7 @@ class InventoryAllocator(object):
 
             # if the order is filled, return the allocation
             if not order:
-                return [{key: value} for key, value in allocation_map.items()]
+                break
 
             # iterate through remaining orders
             for product in order:
@@ -75,3 +75,5 @@ class InventoryAllocator(object):
                     # remove item from order if the remaining required amount is 0
                     if(order[product] == 0):
                         del order[product]
+
+        return [{key: value} for key, value in allocation_map.items()]
