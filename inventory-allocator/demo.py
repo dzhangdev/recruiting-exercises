@@ -9,6 +9,7 @@
 #
 
 from src.InventoryAllocator import InventoryAllocator
+from src import util
 
 
 def main():
@@ -28,7 +29,7 @@ def do_basic_happy_test():
     Output: [{'owd': {'apple': 1}}]
     Explanation: Happy Case, exact inventory match!
     """
-    order = {'apple' : 1};
+    order = {'apple' : 1}
     warehouse_inventories = [{ 'name': 'owd', 'inventory': { 'apple': 1 } }]
     allocation = InventoryAllocator.allocate(order, warehouse_inventories)
 
@@ -43,7 +44,7 @@ def do_basic_not_enough_inventory_test():
     Output: []
     Explanation: Not enough inventory -> no allocations!
     """
-    order = {'apple' : 1};
+    order = {'apple' : 1}
     warehouse_inventories = [{ 'name': 'owd', 'inventory': { 'apple': 0 } }]
     allocation = InventoryAllocator.allocate(order, warehouse_inventories)
 
@@ -60,7 +61,7 @@ def do_basic_split_test():
     Output: [{'owd': {'apple': 5}}, {'dm': {'apple': 5}}]
     Explanation: Should split an item across warehouses if that is the only way to completely ship an item!
     """
-    order = {'apple' : 1};
+    order = {'apple' : 1}
     warehouse_inventories = [{ 'name': 'owd', 'inventory': { 'apple': 5 } }, { 'name': 'dm',  'inventory': { 'apple': 5 }}]
     allocation = InventoryAllocator.allocate(order, warehouse_inventories)
 
@@ -70,7 +71,12 @@ def do_basic_split_test():
 
 def do_random_test():
     """ Randomly creates 1000 cases, and prints the results to the console """
-    pass
+    NUM_TESTS = 1000
+    for _ in range(NUM_TESTS):
+        order = util.generate_order()
+        warehouse_inventories = util.generate_warehouses()
+        allocation = InventoryAllocator.allocate(order, warehouse_inventories)
+        print(str(allocation))
 
 
 # Run the main program
