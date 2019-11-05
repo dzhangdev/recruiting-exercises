@@ -17,13 +17,13 @@ class InventoryAllocator(object):
     since the input inventory is pre-sorted per cost.
     """
     @staticmethod
-    def allocate(order, warehouse_inventories):
+    def allocate(raw_order, warehouse_inventories):
         """ Allocate inventories per order from available warehouses using
         greedy algorithm
 
         Parameters
         ----------
-        order: None or dict()
+        raw_order: None or dict()
             Input data. Note that order can be empty or None. In both cases
             should return []
 
@@ -43,8 +43,10 @@ class InventoryAllocator(object):
             type allocation among available warehouses.
         """
         # return empty list if None or empty input data
-        if (not order or not warehouse_inventories):
+        if (not raw_order or not warehouse_inventories):
             return []
+
+        order = dict(raw_order)
 
         # keep the warehouse filling order sorted
         allocation_map = OrderedDict()
