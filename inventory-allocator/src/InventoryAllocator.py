@@ -57,7 +57,7 @@ class InventoryAllocator(object):
                 break
 
             # iterate through remaining orders
-            for product in order:
+            for product in list(order):
 
                 # check if the warehosue has the item in the inventory
                 if (product in warehouse_map['inventory'] and warehouse_map['inventory'][product] > 0):
