@@ -3,15 +3,20 @@ qixianz@uci.edu
 Nov 2, 2019  
 Deliverr Coding Challenge
 
-#### Problem
+#### Challenge
 The problem is compute the best way an order can be shipped (called shipments) given inventory across a set of warehouses (called inventory distribution).
 
+#### Solution demo
+```Bash
+python3 demo.py
+```
+
 #### General Approach
-**Algorithm**: Greedy - fill the order by iterating through pre-sorted-by-cost warehouses
-**Language**: Python 3.6
+Algorithm: Greedy - fill the order by iterating through pre-sorted-by-cost warehouses  
+Language: Python 3.6
 
 #### Approach Analysis
-**Algorithm in pseudocode**:  
+Algorithm in pseudocode:  
 ```{r, tidy=FALSE, eval=FALSE, highlight=FALSE}
 allocation = []
 warehouse_index = 0
@@ -43,7 +48,7 @@ Output: ```[{ dm: { apple: 5 }}, { owd: { apple: 5 } }]```
 Explanation: *Should split an item across warehouses if that is the only way to completely ship an item:*
 
 **Other examples**  
-(Test on 1000 randomly generated input pairs)
+Tested on 10000 randomly generated inputs to make sure the code does not break.
 
 
 #### Data Consideration (edge cases)
@@ -51,10 +56,7 @@ Explanation: *Should split an item across warehouses if that is the only way to 
 2. Given order can only be partially filled -> return an empty list (no allocation)
 
 #### Other consideration
-The fixed cost for allocation from each warehouses are not considered here.  
-
-For example,
-
+The fixed cost for allocating inventory to fill the order from each warehouses are not considered here. For example,
 ```
     - The order: {apple: 3}
     - Inventories: [
